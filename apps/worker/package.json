@@ -1,0 +1,25 @@
+{
+  "name": "journalink-worker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -b && prisma generate",
+    "dev": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^5.17.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "prisma": "^5.17.0",
+    "redis": "^4.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.2",
+    "@types/redis": "^4.0.11"
+  }
+}
