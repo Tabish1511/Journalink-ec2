@@ -13,11 +13,11 @@ export default function ChatComponent() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!process.env.NEXT_PUBLIC_REDIS_WORKER_URL) {
-      console.error("REDIS_WORKER_URL is not defined.");
-      setIsLoading(true);
-      return;
-    }
+    // if (!process.env.NEXT_PUBLIC_REDIS_WORKER_URL) {
+    //   console.error("REDIS_WORKER_URL is not defined.");
+    //   setIsLoading(true);
+    //   return;
+    // }
 
     const getAllMessagesPromise = axios.get(
       `${baseEndpoint}/api/v1/message/messages`

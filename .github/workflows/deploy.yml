@@ -26,6 +26,8 @@ jobs:
         file: ./apps/api/Dockerfile
         push: true
         tags: tabish1511/journalink:api
+        build-args: |
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
 
     - name: Build and Push Worker Image
       uses: docker/build-push-action@v2
@@ -34,6 +36,8 @@ jobs:
         file: ./apps/worker/Dockerfile
         push: true
         tags: tabish1511/journalink:worker
+        build-args: |
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
 
     - name: Upload docker-compose File to EC2
       uses: appleboy/scp-action@master
@@ -61,3 +65,79 @@ jobs:
           
           # Run docker-compose with updated images
           sudo docker-compose -f /home/ubuntu/journalink/docker-compose-server.yaml up -d
+
+
+
+
+
+
+
+
+
+
+
+
+
+# name: Build and Deploy Docker-Compose Services
+
+# on:
+#   push:
+#     branches:
+#       - master
+#       - main
+
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Check Out Repo
+#       uses: actions/checkout@v2
+
+#     - name: Log in to Docker Hub
+#       uses: docker/login-action@v1
+#       with:
+#         username: ${{ secrets.DOCKER_USERNAME }}
+#         password: ${{ secrets.DOCKER_PASSWORD }}
+
+#     - name: Build and Push API Image
+#       uses: docker/build-push-action@v2
+#       with:
+#         context: ./apps/api
+#         file: ./apps/api/Dockerfile
+#         push: true
+#         tags: tabish1511/journalink:api
+
+#     - name: Build and Push Worker Image
+#       uses: docker/build-push-action@v2
+#       with:
+#         context: ./apps/worker
+#         file: ./apps/worker/Dockerfile
+#         push: true
+#         tags: tabish1511/journalink:worker
+
+#     - name: Upload docker-compose File to EC2
+#       uses: appleboy/scp-action@master
+#       with:
+#         host: ${{ secrets.SSH_HOST }}
+#         username: ${{ secrets.SSH_USERNAME }}
+#         key: ${{ secrets.SSH_KEY }}
+#         source: ./docker-compose-server.yaml
+#         target: /home/ubuntu/journalink/
+
+#     - name: Deploy to EC2
+#       uses: appleboy/ssh-action@master
+#       with:
+#         host: ${{ secrets.SSH_HOST }}
+#         username: ${{ secrets.SSH_USERNAME }}
+#         key: ${{ secrets.SSH_KEY }}
+#         script: |
+#           # Pull the latest images
+#           sudo docker pull tabish1511/journalink:api
+#           sudo docker pull tabish1511/journalink:worker
+#           sudo docker pull redis:latest
+          
+#           # Stop and remove existing containers if they exist
+#           sudo docker-compose -f /home/ubuntu/journalink/docker-compose-server.yaml down
+          
+#           # Run docker-compose with updated images
+#           sudo docker-compose -f /home/ubuntu/journalink/docker-compose-server.yaml up -d
