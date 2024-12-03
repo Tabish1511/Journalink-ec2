@@ -5,6 +5,10 @@ on:
     branches:
       - master
       - main
+    paths:
+      - 'apps/api/**'
+      - 'apps/worker/**'
+      - 'docker-compose-server.yaml'
 
 jobs:
   build-and-deploy:
